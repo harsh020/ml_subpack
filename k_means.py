@@ -12,7 +12,7 @@ class KMeans:
     def _cost_function(self, X, c, mu):
         J = 0
         for i in range(X.shape[0]):
-            J += np.square(euclidean_dist(X[i, :], mu[int(c[i]), :]))
+            J += np.square(euclidean_dist(X[i, :], mu[int(c[i]), :].reshape(1, X.shape[1])))
         J /= X.shape[0]
 
         return J
@@ -22,29 +22,27 @@ class KMeans:
         # for i in range(X.shape[0]):
         #     new_mu[i] = min(euclidean_dist(X[i], mu))
         for i in range(len(X)):
-            dist = list(euclidean_dist(X[i], mu))
-            idx = dist.index(min(dist))
+            dist = euclidean_dist(X[i], mu)
+            idx = np.argmin(dist)
             c[i] = idx
 
         return c
 
     def _cluster_centroid(self, X, c, mu):
+        mu = np.zeros((self.n_clusters, X.shape[1]))
         for c_ in set(c.ravel()):
             counter = 0
             for i in range(X.shape[0]):
                 if c[i] == c_:
-                    mu[int(c_), :] += X[i, :]
+                    mu[int(c[i]), :] += X[i, :]
                     counter += 1
             mu[int(c_)] /= counter
-
         return mu
 
     def _plot_scatter(self, X, cluster_arr, optimal):
         X_1 = X[:, 0]
         X_2 = X[:, 1]
         c = cluster_arr.ravel()
-
-        print(c)
 
         plt.scatter(X_1[c==0], X_2[c==0])
         plt.scatter(X_1[c==1], X_2[c==1])
@@ -72,10 +70,11 @@ class KMeans:
                 J = self._cost_function(X, cluster_arr, cluster_mean)
                 print("Job : {} | Iteration : {} | "
                       "Cost : {}" .format(i+1, iter+1,
-                                                round(J, 4)), end='\r')
-
-                if J  <= prev_J:
-                    optimal = cluster_mean
+                                                round(float(J), 4)), end='\r')
+            J = self._cost_function(X, cluster_arr, cluster_mean)
+            if J  <= prev_J:
+                optimal = cluster_mean
+                prev_J = J
 
         self._plot_scatter(X, cluster_arr, optimal)
 
