@@ -10,7 +10,7 @@ sns.set()
 
 
 X_ = load_iris()
-X = X_.data[:, [2, 3]]
+X = X_.data[:, [0, 3]]
 y = X_.target
 
 thetas = []
