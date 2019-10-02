@@ -16,7 +16,6 @@ class PCA:
 
         # cov_X = 1/m * np.cov(X)
         cov_X = 1/m * (X.T @ X)
-
         w, v = eig(cov_X)
         self._new_basis = v[:, :self.k_dim]
 
@@ -28,7 +27,6 @@ class PCA:
 
         X = mean_normalize(X)
         Xt = []
-        print(self._new_basis.shape)
         for i in range(X.shape[0]):
             xt = X[i, :] @ self._new_basis
             Xt.append(xt)

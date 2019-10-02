@@ -32,7 +32,6 @@ def unravel(theta, units, hidden_layers, n):
 def mean_normalize(X):
     m, n = X.shape
     means_ = np.array([np.sum(X[i]) for i in range(n)]).reshape(1, n) / m
-    print(means_)
     std_ = np.std(X, axis=0)
     normalized = (X - means_) / std_
 
