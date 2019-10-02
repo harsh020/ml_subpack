@@ -1,6 +1,9 @@
 from sklearn.datasets import load_iris
 from logistic_regression import LogisticRegression
 from k_means import KMeans
+from dimensionality_reduction import PCA
+
+from mpl_toolkits.mplot3d import Axes3D
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,12 +13,14 @@ sns.set()
 
 
 X_ = load_iris()
-X = X_.data[:, [0, 3]]
+X = X_.data[:, :]
 y = X_.target
 
 thetas = []
 
-clf = KMeans(3)
+pca = PCA(k_dim=3)
+pca.fit(X)
+Xt = pca.transform(X)
 
 # diff_y = list(set(y))
 # for c in [0, 2]:
@@ -23,12 +28,16 @@ clf = KMeans(3)
 #     res = clf.fit(X, y_)
 #     thetas.append(res)
 
-res = clf.fit(X)
-thetas.append(res)
+# # k-Means
+# clf = KMeans(3)
+# res = clf.fit(X)
+# thetas.append(res)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
-# plt.scatter(X[:50, 0], X[:50, 1], color='r', marker='^')
-# plt.scatter(X[50:100, 0], X[50:100, 1], color='r', marker='o')
-# # plt.scatter(X[100:, 0], X[100:, 1], color='g', marker='+')
+ax.scatter(Xt[:50, 0], Xt[:50, 1], Xt[:50, 2], color='r', marker='o')
+ax.scatter(Xt[50:100, 0], Xt[50:100, 1], Xt[50:100, 2], color='b', marker='o')
+ax.scatter(Xt[100:, 0], Xt[100:, 1], Xt[100:, 2], color='g', marker='o')
 #
 # x_val = np.arange(np.min(X[:, 0]), np.max(X[:, 0]), 0.2)
 #
@@ -38,4 +47,4 @@ thetas.append(res)
 #     # plt.plot(x_val, y_val)
 #     plt.scatter(c[:, 0], c[:, 1], color='k')
 #
-# plt.show()
+plt.show()
