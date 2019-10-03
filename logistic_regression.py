@@ -5,10 +5,12 @@ from utils.utility import sigmoid
 from scipy.optimize import fmin_cg
 
 class LogisticRegression:
-    def __init__(self, polynomial=False, lambda_=0, alpha=0.01):
+    def __init__(self, polynomial=False, lambda_=0,
+                 alpha=0.01, multi_class=False):
         self.ploynomial = polynomial
         self.lambda_ = lambda_
         self.alpha = alpha
+        self.multi_class = multi_class
 
     def _cost_function(self, theta, X, y, lambda_):
         m = X.shape[1]
@@ -37,18 +39,39 @@ class LogisticRegression:
         return grad
 
 
-    def fit(self, X, y):
-        X = np.array(np.c_[np.ones((X.shape[0], 1)), X])
+    def _fit(self, X, y):
         theta = np.zeros((X.shape[1]))
 
-        self.optimal_theta = gradient_desc(self._cost_function, X, y, theta, 0, .003, 50000, True)
+        optimal_theta = gradient_desc(self._cost_function, X, y,
+                                      theta, 0, .003, 500, False)
 
+        return optimal_theta
+
+
+    def fit(self, X, y):
+        class_iter = len(set(y.ravel()))
+        classes = list(set(y.ravel()))
+
+        X = np.c_[np.ones((X.shape[0], 1)), X]
+
+        if not self.multi_class:
+            class_iter -= 1
+
+        thetas = []
+        for i in range(class_iter):
+            y_ = np.array([1 if x == classes[i]
+                             else 0 for x in y]).reshape(X.shape[0], 1)
+            thetas.append(list(self._fit(X, y_)))
+
+        self.thetas = np.array(thetas).reshape(X.shape[1], class_iter)
         # self.optimal_theta = fmin_cg(self._cost_fmin, theta, fprime=self._grad_fmin, args=(X, y), disp=0)
 
-        return self.optimal_theta
+        return self.thetas
 
     def predict(self, X):
-        prdicted_y = sigmoid(X@optimal_theta)
-        predicted_y = np.array([1 if x>=0.5 else 0 for x in (predicted_y.reshape(predicted_y.shape))])
+        prdicted_y = sigmoid(X@self.thetas)
+        predicted = []
+        for i in range(predicted_y.shape[0]):
+            predicted.append(np.argmax(predicted_y[i, :]))
 
-        return predicted_y
+        return predicted
