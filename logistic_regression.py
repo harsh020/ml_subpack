@@ -6,11 +6,13 @@ from scipy.optimize import fmin_cg
 
 class LogisticRegression:
     def __init__(self, polynomial=False, lambda_=0,
-                 alpha=0.01, multi_class=False):
+                 alpha=0.001, iter=100, multi_class=False):
         self.ploynomial = polynomial
         self.lambda_ = lambda_
         self.alpha = alpha
+        self.iter = iter
         self.multi_class = multi_class
+
 
     def _cost_function(self, theta, X, y, lambda_):
         m = X.shape[1]
@@ -43,7 +45,7 @@ class LogisticRegression:
         theta = np.zeros((X.shape[1]))
 
         optimal_theta = gradient_desc(self._cost_function, X, y,
-                                      theta, 0, .003, 500, False)
+                                      theta, 0, self.alpha, self.iter, False)
 
         return optimal_theta
 
@@ -68,10 +70,13 @@ class LogisticRegression:
 
         return self.thetas
 
+
     def predict(self, X):
-        prdicted_y = sigmoid(X@self.thetas)
+        X = np.c_[np.ones((X.shape[0], 1)), X]
+
         predicted = []
-        for i in range(predicted_y.shape[0]):
-            predicted.append(np.argmax(predicted_y[i, :]))
+        for i in range(X.shape[0]):
+            predicted_y = sigmoid(X[i, :] @ self.thetas.T)
+            predicted.append(np.argmax(predicted_y[:]))
 
         return predicted

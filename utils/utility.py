@@ -42,3 +42,11 @@ def test_train_split(X, y, test_size=0.4, valid_size=0):
     # valid_idx = valid_size*X.size[0]
     # test_idx = int(test_size*X.shape[0])
     return X[:train_idx, :], y[:train_idx], X[train_idx:, :], y[train_idx:]
+
+def accuracy_score(true_y, pred_y):
+    correct = 0
+    for i in range(len(true_y)):
+        if true_y[i] == pred_y[i]:
+            correct += 1
+
+    return correct/len(true_y)
