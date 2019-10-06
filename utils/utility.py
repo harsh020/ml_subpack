@@ -49,9 +49,7 @@ def multinomial_model(X, mu, sigma_2):
     n = len(mu)
     exp = np.exp(-0.5 * (X-mu)@np.linalg.pinv(sigma_2)@(X-mu).reshape(n, 1))
     coef = 1/(((2*np.pi)**(n/2))*(np.linalg.det(sigma_2)**0.5))
-    # print(sigma_2)
 
-    # print(exp.shape)
     return coef*np.array(list(exp))
 
 def test_train_split(X, y, test_size=0.4, valid_size=0):
