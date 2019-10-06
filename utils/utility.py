@@ -45,6 +45,15 @@ def gaussian_model(X, mu, sigma_2):
 
     return np.array(list((1/np.sqrt(2*np.pi*sigma_2)) * exp))
 
+def multinomial_model(X, mu, sigma_2):
+    n = len(mu)
+    exp = np.exp(-0.5 * (X-mu)@np.linalg.pinv(sigma_2)@(X-mu).reshape(n, 1))
+    coef = 1/(((2*np.pi)**(n/2))*(np.linalg.det(sigma_2)**0.5))
+    # print(sigma_2)
+
+    # print(exp.shape)
+    return coef*np.array(list(exp))
+
 def test_train_split(X, y, test_size=0.4, valid_size=0):
     rand_idx = list(range(X.shape[0]))
     random.shuffle(rand_idx)
