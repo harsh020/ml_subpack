@@ -6,7 +6,7 @@ from utils.utility import euclidean_dist
 
 class KMeans:
     def __init__(self, n_clusters=1, centroid_plot=True):
-        self.centroid_plot = True
+        self.centroid_plot = centroid_plot
         # self.elbow_plot = True
         self.n_clusters = n_clusters
 

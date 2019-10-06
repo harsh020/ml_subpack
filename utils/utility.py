@@ -31,11 +31,11 @@ def unravel(theta, units, hidden_layers, n):
 
 def mean_normalize(X):
     m, n = X.shape
-    means_ = np.array([np.sum(X[i]) for i in range(n)]).reshape(1, n) / m
+    means_ = np.array([np.sum(X[:, i]) for i in range(n)]).reshape(1, n) / m
     std_ = np.std(X, axis=0)
     normalized = (X - means_) / std_
-
-    return normalized
+    mu = np.array([np.sum(normalized[:, i]) for i in range(n)]).reshape(1, n) / m
+    return normalized, mu
 
 def euclidean_dist(obj_1, obj_2):
     return np.sqrt(sum(np.square(obj_1 - obj_2).T))
