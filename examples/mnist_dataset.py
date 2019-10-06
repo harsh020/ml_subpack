@@ -1,3 +1,6 @@
+# Note / Credits : The MNIST dataset has been taken for Coursera's
+#                  Machine Learning Course by Prof. Andrew Ng.
+
 from scipy import io
 import numpy as np
 from ..utils.dispImgs import disp_imgs
