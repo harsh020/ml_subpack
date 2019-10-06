@@ -1,2 +1,6 @@
 # Ignore folder named __pycache__
 __pycache__/
+/utils/__pycache__/
+
+_try.py
+_try2.py

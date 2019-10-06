@@ -40,6 +40,11 @@ def mean_normalize(X):
 def euclidean_dist(obj_1, obj_2):
     return np.sqrt(sum(np.square(obj_1 - obj_2).T))
 
+def gaussian_model(X, mu, sigma_2):
+    exp = np.exp(-np.square(X-mu) / (2*sigma_2))
+
+    return np.array(list((1/np.sqrt(2*np.pi*sigma_2)) * exp))
+
 def test_train_split(X, y, test_size=0.4, valid_size=0):
     rand_idx = list(range(X.shape[0]))
     random.shuffle(rand_idx)
