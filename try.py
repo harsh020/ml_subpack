@@ -1,12 +1,15 @@
 from sklearn.datasets import load_iris
 from logistic_regression import LogisticRegression
 from k_means import KMeans
+<<<<<<< HEAD
 from dimensionality_reduction import PCA
 from k_means import KMeans
 
 from mpl_toolkits.mplot3d import Axes3D
+from utils.utility import accuracy_score
 
 import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
 import numpy as np
 
 import seaborn as sns
@@ -33,6 +36,10 @@ print(pca.components_)
 #     y_ = np.array([1 if i == diff_y[c] else 0 for i in y]).reshape(150, 1)
 #     res = clf.fit(X, y_)
 #     thetas.append(res)
+# lr = LogisticRegression(lambda_=10, alpha=0.001, iter=1000, multi_class=True)
+lr = LogisticRegression(multi_class=True)
+thetas = lr.fit(X, y)
+predict = lr.predict(X)
 
 # # k-Means
 # clf = KMeans(3)
@@ -62,11 +69,18 @@ ax.scatter(X_[100:, 0], X_[100:, 1], X_[100:, 2], color='g', marker='o')
 
 # ax.plot(pca.components_[0, 0], pca.components_[1, 0], color='k')
 # ax.plot(pca.components_[0, 1], pca.components_[1, 1], color='k')
+print(accuracy_score(y, predict))
+
+for x, c in zip(range(X.shape[0]), ['b', 'r', 'g']):
+    idx = np.where(y == x)
+    plt.scatter(X[idx, 0], X[idx, 1], c=c)
 #
-# for c in thetas:
-#     # y_val = - (c[0] + c[1]*x_val) / c[2]
-#     #
-#     # plt.plot(x_val, y_val)
-#     plt.scatter(c[:, 0], c[:, 1], color='k')
+x_val = np.arange(np.min(X[:, 0]), np.max(X[:, 0]), 0.2)
+#
+for c in thetas:
+    y_val = - (c[0] + c[1]*x_val) / c[2]
+
+    plt.plot(x_val, y_val)
+    # plt.scatter(c[:, 0], c[:, 1], color='k')
 #
 plt.show()
