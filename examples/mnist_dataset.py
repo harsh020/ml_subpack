@@ -3,9 +3,9 @@
 
 from scipy import io
 import numpy as np
-from ..utils.dispImgs import disp_imgs
-from ..neural_network import NeuralNetwork
-from ..utils.utility import test_train_split
+from .pyml.utils.dispImgs import disp_imgs
+from .pyml.neural_network import NeuralNetwork
+from .pyml.utils.utility import test_train_split
 
 if __name__ == '__main__':
     mnist = io.loadmat('mnist_data/mnist')

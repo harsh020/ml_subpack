@@ -3,7 +3,7 @@ import numpy as np
 from numpy.linalg import svd
 import matplotlib.pyplot as plt
 
-from utils.utility import mean_normalize
+from ..utils.utility import mean_normalize
 
 class PCA:
     def __init__(self, k_dim=2):

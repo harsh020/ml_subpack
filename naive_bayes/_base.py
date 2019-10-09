@@ -1,5 +1,5 @@
 import numpy as np
-from utils.utility import gaussian_model, multinomial_model
+from ..utils.utility import gaussian_model, multinomial_model
 
 class _BaseClass:
     def _group_by_class(self, X, y):
