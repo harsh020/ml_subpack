@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.optimize import fmin_cg
-from utils.optimize import gradient_desc, computeNumericalGradient
-from utils.utility import sigmoid, sigmoid_grad, ravel, unravel
+from ..utils.optimize import gradient_desc, computeNumericalGradient
+from ..utils.utility import sigmoid, sigmoid_grad, ravel, unravel
 
 import sys
 np.set_printoptions(threshold=sys.maxsize)

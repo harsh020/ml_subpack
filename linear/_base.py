@@ -1,7 +1,7 @@
 import numpy as np
 from math import log
-from utils.optimize import gradient_desc
-from utils.utility import sigmoid
+from ..utils.optimize import gradient_desc
+from ..utils.utility import sigmoid
 from scipy.optimize import fmin_cg
 
 class LogisticRegression:

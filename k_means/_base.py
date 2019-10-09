@@ -2,7 +2,7 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 
-from utils.utility import euclidean_dist
+from ..utils.utility import euclidean_dist
 
 class KMeans:
     def __init__(self, n_clusters=1, centroid_plot=True):
